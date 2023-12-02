@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+
+members = ["day-*"]
+
+[workspace.dependencies]
+rstest = "0.18.2"
+rstest_reuse = "0.6.0"
+miette = { version = "5.10", features = ["fancy"] }
+thiserror = "1.0.50"
+aho-corasick = "1.1.2"
