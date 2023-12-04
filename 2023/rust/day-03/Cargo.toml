@@ -1,0 +1,18 @@
+[package]
+name = "day-03"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+miette.workspace = true
+thiserror.workspace = true
+nom.workspace = true
+glam.workspace = true
+nom_locate.workspace = true
+itertools.workspace = true
+
+[dev-dependencies]
+rstest.workspace = true
+rstest_reuse.workspace = true
