@@ -7,8 +7,7 @@ const PATTERNS: [&str; 19] = [
 ];
 
 pub fn process(input: &str) -> miette::Result<String, AocError> {
-	let output = input.lines().map(process_line).sum::<u32>();
-	Ok(output.to_string())
+	Ok(input.lines().map(process_line).sum::<u32>().to_string())
 }
 
 fn process_line(line: &str) -> u32 {

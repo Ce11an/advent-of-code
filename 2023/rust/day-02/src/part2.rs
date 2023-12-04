@@ -1,14 +1,14 @@
-use std::collections::BTreeMap;
 use crate::custom_error::AocError;
+use std::collections::BTreeMap;
 
 #[derive(Debug)]
 struct Cube<'a> {
 	colour: &'a str,
-	count: u32
+	count: u32,
 }
 #[derive(Debug)]
 struct Game<'a> {
-	rounds: Vec<Vec<Cube<'a>>>
+	rounds: Vec<Vec<Cube<'a>>>,
 }
 
 impl<'a> Game<'a> {
@@ -18,7 +18,7 @@ impl<'a> Game<'a> {
 			.iter()
 			.fold(map, |mut acc, round| {
 				for cube in round.iter() {
-					acc.entry(cube. colour)
+					acc.entry(cube.colour)
 						.and_modify(|v| {
 							*v = (*v).max(cube.count);
 						})
@@ -33,39 +33,49 @@ impl<'a> Game<'a> {
 
 pub fn process(input: &str) -> miette::Result<String, AocError> {
 	let games = parse_games(input).expect("should parse games");
-	Ok(games
-		   .iter()
-		   .map(|game| game.minimum_cube_set())
-		   .sum::<u32>()
-		   .to_string())
+	Ok(games.iter().map(|game| game.minimum_cube_set()).sum::<u32>().to_string())
 }
 
 fn parse_games(input: &str) -> Result<Vec<Game>, AocError> {
-	input.lines().map(|line| {
-		let (_, game_rounds) = line.split_once(": ").expect("should have a game");
-		let rounds = parse_rounds(game_rounds)?;
-		Ok(Game { rounds })
-	}).collect()
+	input
+		.lines()
+		.map(|line| {
+			let (_, game_rounds) = line.split_once(": ").expect("should have a game");
+			let rounds = parse_rounds(game_rounds)?;
+			Ok(Game {
+				rounds,
+			})
+		})
+		.collect()
 }
 
 fn parse_rounds(rounds: &str) -> Result<Vec<Vec<Cube>>, AocError> {
-	rounds.split("; ").map(|round| {
-		let round = parse_round(round)?;
-		Ok(round)
-	}).collect()
+	rounds
+		.split("; ")
+		.map(|round| {
+			let round = parse_round(round)?;
+			Ok(round)
+		})
+		.collect()
 }
 
 fn parse_round(round: &str) -> Result<Vec<Cube>, AocError> {
-	round.split(", ").map(|round| {
-		let cube = parse_cube(round)?;
-		Ok(cube)
-	}).collect()
+	round
+		.split(", ")
+		.map(|round| {
+			let cube = parse_cube(round)?;
+			Ok(cube)
+		})
+		.collect()
 }
 
 fn parse_cube(cube: &str) -> Result<Cube, AocError> {
 	let (count, colour) = cube.split_once(' ').expect("should have a cube");
 	let count = count.parse::<u32>().expect("should be a number");
-	Ok(Cube { colour, count })
+	Ok(Cube {
+		colour,
+		count,
+	})
 }
 
 #[cfg(test)]
